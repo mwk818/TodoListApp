@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.todo.dao.TodoItem;
 import com.todo.dao.TodoList;
+import java.io.*;
+import java.text.SimpleDateFormat;
 
 public class TodoUtil {
 	
@@ -12,32 +14,32 @@ public class TodoUtil {
 		String title, desc;
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\n"
-				+ "========== Create item Section\n"
-				+ "enter the title\n");
+		System.out.print("\n"
+				+ "========== Create an item Section\n"
+				+ "Enter the title > ");
 		
-		title = sc.next();
+		title = sc.nextLine();
 		if (list.isDuplicate(title)) {
-			System.out.printf("title can't be duplicate");
+			System.out.printf("Title can't be duplicated");
 			return;
 		}
-		
-		System.out.println("enter the description");
-		desc = sc.next();
+
+		System.out.print("Enter the description > ");
+		desc = sc.nextLine().trim();
 		
 		TodoItem t = new TodoItem(title, desc);
 		list.addItem(t);
+		System.out.println("Item has been added!\n");
 	}
 
 	public static void deleteItem(TodoList l) {
 		
 		Scanner sc = new Scanner(System.in);
-		String title = sc.next();
 		
-		System.out.println("\n"
-				+ "========== Delete Item Section\n"
-				+ "enter the title of item to remove\n"
-				+ "\n");
+		System.out.print("\n"
+				+ "========== Delete The Item Section\n"
+				+ "Enter the title of the item to remove > ");
+		String title = sc.nextLine();
 		
 		for (TodoItem item : l.getList()) {
 			if (title.equals(item.getTitle())) {
@@ -45,6 +47,7 @@ public class TodoUtil {
 				break;
 			}
 		}
+		System.out.println("Item has been deleted!\n");
 	}
 
 
@@ -52,39 +55,68 @@ public class TodoUtil {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\n"
-				+ "========== Edit Item Section\n"
-				+ "enter the title of the item you want to update\n"
-				+ "\n");
-		String title = sc.next().trim();
+		System.out.print("\n"
+				+ "========== Edit The Item Section\n"
+				+ "Enter the title of the item you want to update > ");
+		String title = sc.nextLine().trim();
 		if (!l.isDuplicate(title)) {
-			System.out.println("title doesn't exist");
+			System.out.println("Title doesn't exist");
 			return;
 		}
 
-		System.out.println("enter the new title of the item");
-		String new_title = sc.next().trim();
+		System.out.println("Enter the new title of the item");
+		String new_title = sc.nextLine().trim();
 		if (l.isDuplicate(new_title)) {
-			System.out.println("title can't be duplicate");
+			System.out.println("Title can't be duplicate");
 			return;
 		}
-		
-		System.out.println("enter the new description ");
-		String new_description = sc.next().trim();
+	
+		System.out.println("Enter the new description ");
+		String new_description = sc.nextLine().trim();
 		for (TodoItem item : l.getList()) {
 			if (item.getTitle().equals(title)) {
 				l.deleteItem(item);
 				TodoItem t = new TodoItem(new_title, new_description);
 				l.addItem(t);
-				System.out.println("item updated");
+				System.out.println("Item has been edited");
 			}
 		}
-
+		System.out.println("The item has been updated!");
 	}
 
-	public static void listAll(TodoList l) {
+	public static void listAll(TodoList l) throws Exception {
 		for (TodoItem item : l.getList()) {
-			System.out.println("Item Title: " + item.getTitle() + "  Item Description:  " + item.getDesc());
+			System.out.println("<" + item.getTitle() + "> " + item.getDesc() + " - " + item.getCurrent_date());
 		}
+		saveList(l, "todolist.txt");
+	}
+	public static void saveList(TodoList l, String filename) throws Exception {
+			FileWriter fw = new FileWriter(filename);
+			fw.flush();
+			for (TodoItem item : l.getList()) {
+				fw.write(item.toSaveString());
+			}
+			fw.close();
+	}
+	public static void loadList(TodoList l, String filename) {
+		try {
+			String title, desc, date;
+			FileReader fr = new FileReader(filename);
+			BufferedReader br = new BufferedReader(fr);
+			String i = " ";
+			while(i != null) { 
+				i = br.readLine();
+				StringTokenizer st = new StringTokenizer(i, "##");
+				while(st.hasMoreTokens()) {
+					title = st.nextToken();
+					desc = st.nextToken();
+					date = st.nextToken();
+					TodoItem t = new TodoItem(title, desc);
+					Date date1=new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy").parse(date); 
+					t.setCurrent_date(date1);
+					l.addItem(t);
+				}
+			}
+		} catch(Exception e) {System.out.print("todoList.txt doesn't exist");}
 	}
 }
