@@ -36,7 +36,7 @@ public class TodoMain {
 				break;
 				
 			case "ls":
-				System.out.println("[Listing all items]");
+				System.out.println("[Listing all items(there are " + TodoUtil.show_num_items(l) + " items in total)]");
 				TodoUtil.listAll(l);
 				break;
 
@@ -58,6 +58,16 @@ public class TodoMain {
 				l.sortByDate();
 				isList = true;
 				break;
+				
+			case "ls_date_desc":
+				System.out.println("[Listing items in order of each date in descending order]");
+				l.reverseList();
+				isList = true;
+				break;
+			
+			case "ls_cate":
+				TodoUtil.list_cate(l);
+				break;
 
 			case "exit":
 				quit = true;
@@ -66,6 +76,16 @@ public class TodoMain {
 			
 			case "help":
 				Menu.displaymenu();
+				break;
+			
+			case "find":
+				String keyword = sc.nextLine().trim();
+				TodoUtil.find_keyword(l, keyword);
+				break;
+			
+			case "find_cate":
+				String ckeyword = sc.nextLine().trim();
+				TodoUtil.find_ckeyword(l, ckeyword);
 				break;
 
 			default:
