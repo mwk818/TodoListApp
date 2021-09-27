@@ -64,10 +64,6 @@ public class TodoMain {
 				l.reverseList();
 				isList = true;
 				break;
-			
-			case "ls_cate":
-				TodoUtil.list_cate(l);
-				break;
 
 			case "exit":
 				quit = true;

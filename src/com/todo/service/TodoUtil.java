@@ -78,10 +78,6 @@ public class TodoUtil {
 				+ "========== Edit The Item Section\n"
 				+ "Enter the number of the item you want to update > ");
 		int number = sc.nextInt();
-//		if (!l.isDuplicate(title)) {
-//			System.out.println("Title doesn't exist");
-//			return;
-//		}
 		
 		int i = 0;
 		
@@ -125,7 +121,7 @@ public class TodoUtil {
 	public static void listAll(TodoList l) throws Exception {
 		int i = 1; 
 		for (TodoItem item : l.getList()) {
-			System.out.println(i + ". <" + item.getTitle() + ">  - " + item.getCategory() + " - " + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+			System.out.println(i + ". <" + item.getCategory() + ">  - " + item.getTitle() + " - " + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
 			i++;
 		}
 		saveList(l, "todolist.txt");
@@ -148,8 +144,8 @@ public class TodoUtil {
 				i = br.readLine();
 				StringTokenizer st = new StringTokenizer(i, "##");
 				while(st.hasMoreTokens()) {
-					title = st.nextToken();
 					category = st.nextToken();
+					title = st.nextToken();
 					desc = st.nextToken();
 					due_date = st.nextToken();
 					date = st.nextToken();
@@ -181,7 +177,7 @@ public class TodoUtil {
 				char kchar = keyword.charAt(kindex);
 				if (ichar == kchar) {
 					if (kindex == keyword.length()-1) {
-						System.out.println(i + ". <" + item.getTitle() + ">  - " + item.getCategory() + " - " + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+						System.out.println(i + ". <" + item.getCategory() + ">  - " + item.getTitle() + " - " + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
 						count++;
 						break;
 					}
@@ -204,7 +200,7 @@ public class TodoUtil {
 				char kchar = keyword.charAt(kindex);
 				if (ichar == kchar) {
 					if (kindex == keyword.length()-1) {
-						System.out.println(i + ". <" + item.getTitle() + ">  - " + item.getCategory() + " - " + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+						System.out.println(i + ". <" + item.getCategory() + ">  - " + item.getTitle() + " - " + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
 						count++;
 						break;
 					}
@@ -215,25 +211,5 @@ public class TodoUtil {
 			}
 		}
 		System.out.print("[" + count + " of items were found!!]");
-	}
-	
-	public static void list_cate(TodoList l) {
-		String[] cate = {};
-		boolean duplic = false;
-		for (TodoItem item : l.getList()) {
-			for (int i = 0; i < show_num_items(l); i++) {
-				if (cate == null) {
-					cate[i] = item.getCategory();
-					break;
-				}
-				else if (cate[i] == item.getCategory()) {
-					duplic = true;
-					break;
-				}
-				else if (cate[i] != item.getCategory()) {
-					continue;
-				}
-			}
-		}
 	}
 }

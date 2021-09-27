@@ -13,7 +13,6 @@ public class Menu {
         System.out.println("ls_name_desc          Sorts the list by name in descending order");
         System.out.println("ls_date               Sorts the list by date");
         System.out.println("ls_date_desc          Sorts the list by date in descending order");
-        System.out.println("ls_cate               Shows the categories in the list");
         System.out.println("help                  Shows the list of commands");
         System.out.println("find <keyword>        Shows the items that contains the keyword in the title or description");
         System.out.println("find_cate <keyword>   Shows the items that contains the keyword in the category");
